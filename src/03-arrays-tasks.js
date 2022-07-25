@@ -501,25 +501,14 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  // let num = 0;
-  // let prev = [];
-  // const newArr2 = Array(n).fill(Array(n).fill(0).map.call(Number, (x) => x + 1));
-  // console.log('newArr -->', newArr2);
-  // const newArr = Array(n).fill(Array(n).fill(0).map((_, ind, arr) => {
-  //   console.log('num -->', num);
-  //   console.log('prev -->', prev);
-  //   if ((prev !== arr) && (num === ind)) {
-  //     num += 1;
-  //     prev = arr;
-  //     return 1;
-  //   }
-  //   // num = 0;
-  //   return 0;
-  // }));
-  // console.log(n, '--->', newArr);
-  // return newArr;
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const newArr = Array(n).fill(Array(n).fill(0)).map((el, ind) => el.map((elIn, indI) => {
+    if (indI === ind) {
+      return 1;
+    }
+    return elIn;
+  }));
+  return newArr;
 }
 
 /**
@@ -602,8 +591,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.map((el) => childrenSelector(el)).reduce((res, el) => [...res, ...el]);
 }
 
 
