@@ -216,8 +216,9 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const arr = [a, b];
+  return `${isStartIncluded ? '[' : '('}${arr.sort().join(', ')}${isEndIncluded ? ']' : ')'}`;
 }
 
 
@@ -233,8 +234,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return [...str].reverse().join('');
 }
 
 
@@ -250,8 +251,9 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  const str = String(num);
+  return Number([...str].reverse().join(''));
 }
 
 
@@ -275,8 +277,54 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = String(ccn).split('').map(Number);
+  let sum = 0;
+  if ((arr.length - 1) % 2 !== 0) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (i === 0 || i % 2 === 0) {
+        const chkNum = arr[i] * 2 >= 10 ? String(arr[i] * 2).split('').map((el) => Number(el)).reduce((total, el) => total + el) : arr[i] * 2;
+        sum += chkNum;
+      } else {
+        sum += arr[i];
+      }
+    }
+  } else {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (i % 2 !== 0) {
+        const chkNum = arr[i] * 2 >= 10 ? String(arr[i] * 2).split('').map((el) => Number(el)).reduce((total, el) => total + el) : arr[i] * 2;
+        sum += chkNum;
+      } else {
+        sum += arr[i];
+      }
+    }
+  }
+  return sum % 10 === 0;
+  // console.log(10 - (sum % 10));
+  // const arr = String(ccn).split('').reverse().map((el) => Number(el));
+  // // console.log(arr.join(''));
+  // let sum = 0;
+  // for (let i = 0; i < arr.length; i += 1) {
+  //   if (i === 0 || i % 2 === 0) {
+  //     const chkNum = arr[i] * 2 >= 10
+  //      ? String(arr[i] * 2).split('').map((el) => Number(el)).reduce((total, el) => total + el)
+  //      : arr[i] * 2;
+  //     console.log('i ->', i, 'arr[i] -->', arr[i], 'chkNum -->', chkNum);
+  //     sum += chkNum;
+  //   } else {
+  //     sum += arr[i];
+  //     console.log('i ->', i, 'arr[i] -->', arr[i], 'chkNum -->', arr[i]);
+  //   }
+  // }
+  // arr.reverse().pop();
+  // arr.push(10 - (sum % 10));
+  // // arr.push(10 - (sum - 10 * Math.floor(sum / 10)));
+  // const checkCcn = Number(arr.join(''));
+  // // console.log('sum -->', sum);
+  // // console.log('ccn   -->', ccn);
+  // // console.log('check -->', checkCcn);
+  // // const y = 10;
+  // return checkCcn === ccn;
 }
 
 /**
@@ -293,8 +341,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  if (num > 9) {
+    const arr = String(num).split('').map(Number);
+    return getDigitalRoot(arr.reduce((sum, el) => sum + el));
+  }
+  return num;
 }
 
 
@@ -319,8 +371,33 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const bracketsStart = ['[', '{', '(', '<'];
+  const pairs = {
+    ']': '[',
+    '}': '{',
+    ')': '(',
+    '>': '<',
+  };
+  const arr = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const symbol = str[i];
+    if (bracketsStart.includes(symbol)) {
+      arr.push(symbol);
+    } else {
+      if (arr.length === 0) {
+        return false;
+      }
+      const lastSymbol = arr[arr.length - 1];
+      if (pairs[symbol] === lastSymbol) {
+        arr.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return arr.length === 0;
+  // throw new Error('Not implemented');
 }
 
 
