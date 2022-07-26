@@ -135,8 +135,16 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const x1 = rect1.left;
+  const y1 = rect1.top;
+  const x2 = rect1.left + rect1.width;
+  const y2 = rect1.top + rect1.height;
+  const x3 = rect2.left;
+  const y3 = rect2.top;
+  const x4 = rect2.left + rect2.width;
+  const y4 = rect2.top + rect2.height;
+  return (x1 < x4) && (x3 < x2) && (y1 < y4) && (y3 < y2);
 }
 
 
@@ -424,8 +432,9 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
+  // throw new Error('Not implemented');
 }
 
 
