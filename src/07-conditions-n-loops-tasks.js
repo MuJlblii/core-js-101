@@ -508,8 +508,41 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const values = ['X', '0'];
+  let winner;
+  values.forEach((value) => {
+    const totRow = position.map((el) => el.reduce((sum, elIn) => {
+      if (elIn === value) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0));
+    const totCol = position.map((_, i) => position.reduce((sum, __, j) => {
+      if (position[j][i] === value) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0));
+    const totDiagL = position.reduce((sum, _, i) => {
+      if (position[i][i] === value) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0);
+    const totDiagR = position.reduce((sum, _, i) => {
+      if (position[position.length - i - 1][i] === value) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0);
+    // console.log('totCol -->', totCol, 'totRow -->', totRow, 'totDiagL -->', totDiagL);
+    const resArray = [...totCol, ...totRow, totDiagL, totDiagR];
+    if (resArray.includes(3)) {
+      winner = value;
+    }
+  });
+  return winner;
 }
 
 
